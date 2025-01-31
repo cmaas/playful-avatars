@@ -8,6 +8,7 @@ Playful avatars is a zero-dependency SVG-based avatar generator, distributed as 
 * Bring your own color palette
 * Zero-dependencies
 * No build step
+* Generated SVGs are exactly the same as Boring avatars to serve as a drop-in replacement if you want to ditch React
 
 [Demo](https://cmaas.github.io/playful-avatars/demo/)
 

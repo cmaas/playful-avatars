@@ -233,7 +233,7 @@ function generateSunsetSVG(name, colors, useTitle) {
 }
 
 /*
- *********** BAUSHAUS ***********
+ *********** BAUHAUS ***********
  */
 function generateBauhausData(name, colors, elements, size) {
 	const numFromName = hashCode(name);
@@ -305,6 +305,7 @@ function generateRingData(name, colors, elements) {
 
 	return colorsList;
 }
+
 function generateRingSVG(name, colors, useTitle) {
 	const size = 90;
 	const colorsList = generateRingData(name, colors, 8, size);

@@ -1,0 +1,32 @@
+{
+    "name": "playful-avatars",
+    "version": "1.0.0",
+    "description": "A zero-dependency SVG-based avatar generator, distributed as a custom element (web component). It is a fork/rewrite of the popular Boring avatars library, but without React.",
+    "license": "MIT",
+	"repository": "github:cmaas/playful-avatars",
+    "author": "Christian Maas",
+	"contributors": [
+		"Boring Designers (https://github.com/boringdesigners)"
+	],
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Check demo files!\" && exit 1"
+    },
+    "keywords": [
+        "avatar",
+    	"gravatar",
+    	"profile picture",
+    	"user avatar",
+    	"avatar generator",
+    	"avatar placeholder",
+        "webcomponents",
+        "web-components"
+    ],
+	"files": [
+		"index.js",
+		"LICENSE",
+		"README.md",
+		"custom-elements.json"
+	],
+	"customElements": "custom-elements.json"
+}

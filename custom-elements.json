@@ -1,0 +1,87 @@
+{
+	"schemaVersion": "1.0.0",
+	"readme": "",
+	"modules": [
+	  {
+		"kind": "javascript-module",
+		"path": "index.js",
+		"declarations": [
+		  {
+			"kind": "class",
+			"description": "",
+			"name": "PlayfulAvatar",
+			"members": [
+			  {
+				"kind": "field",
+				"name": "name"
+			  },
+			  {
+				"kind": "field",
+				"name": "variant"
+			  },
+			  {
+				"kind": "field",
+				"name": "title"
+			  },
+			  {
+				"kind": "field",
+				"name": "colors"
+			  },
+			  {
+				"kind": "method",
+				"name": "_upgradeProperty",
+				"privacy": "private",
+				"parameters": [
+				  {
+					"name": "prop"
+				  }
+				]
+			  },
+			  {
+				"kind": "method",
+				"name": "render"
+			  },
+			  {
+				"kind": "field",
+				"name": "_isConnected",
+				"privacy": "private",
+				"type": {
+				  "text": "boolean"
+				},
+				"default": "false"
+			  }
+			],
+			"attributes": [
+			  {
+				"name": "name"
+			  },
+			  {
+				"name": "variant"
+			  },
+			  {
+				"name": "title"
+			  },
+			  {
+				"name": "colors"
+			  }
+			],
+			"superclass": {
+			  "name": "HTMLElement"
+			},
+			"tagName": "playful-avatar",
+			"customElement": true
+		  }
+		],
+		"exports": [
+		  {
+			"kind": "custom-element-definition",
+			"name": "playful-avatar",
+			"declaration": {
+			  "name": "PlayfulAvatar",
+			  "module": "index.js"
+			}
+		  }
+		]
+	  }
+	]
+  }

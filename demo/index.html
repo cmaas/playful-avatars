@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Playful Avatars Playground</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+	<script type="module">
+		import '../index.js';
+		import names from './names.js';
+		import colors from './colors.js';
+		const showcase = document.getElementById('showcase');
+
+		const state = {
+			colors: ["#0a0310", "#49007e", "#ff005b", "#ff7d10", "#ffb238"],
+			variant: 'beam',
+			scale: 4,
+			shape: 'circle',
+		};
+
+		function setupHandlers() {
+			document.querySelectorAll('.button-pill').forEach(button => {
+				button.addEventListener('click', () => {
+					if (button.dataset.variant) {
+						setState('variant', button.dataset.variant);
+					}
+					if (button.dataset.shape) {
+						setState('shape', button.dataset.shape);
+					}
+				});
+			});
+			document.getElementById('random-color').addEventListener('click', () => {
+				const swatch = colors[Math.floor(Math.random() * colors.length)];
+				setState('colors', swatch);
+			});
+			document.getElementById('scale').addEventListener('input', () => {
+				setState('scale', document.getElementById('scale').value);
+			});
+			document.querySelectorAll('input[type="color"]').forEach(input => {
+				input.addEventListener('change', () => {
+					const index = input.dataset.color;
+					const nextColors = [...state.colors];
+					nextColors[index] = input.value;
+					setState('colors', nextColors);
+				});
+			});
+			document.getElementById('colors').addEventListener('blur', () => {
+				const colors = document.getElementById('colors').value.split(',');
+				setState('colors', colors);
+			});
+		}
+
+		function setState(name, value) {
+			state[name] = value;
+			updateShowcase(state);
+		}
+
+		function updateShowcase(state) {
+			const avatars = document.querySelectorAll('playful-avatar');
+			// update the colors of all avatars
+			avatars.forEach(el => {
+				el.colors = state.colors;
+			});
+			// update the rest only on showcase avatars
+			const avatarWithoutControls = document.querySelectorAll('#showcase playful-avatar');
+			avatarWithoutControls.forEach(el => {
+				el.variant = state.variant;
+				el.style.width = `${state.scale * 20}px`;
+				el.style.height = `${state.scale * 20}px`;
+
+				// get the element with the part attribute
+				const svgElement = el.shadowRoot.querySelector('[part=svg]');
+				switch (state.shape) {
+					case 'circle':
+						el.style.borderRadius = '50%';
+						svgElement.style.border = '0';
+						svgElement.style.boxShadow = 'none';
+						break;
+					case 'square':
+						el.style.borderRadius = '0';
+						svgElement.style.border = '0';
+						svgElement.style.boxShadow = 'none';
+						break;
+					case 'rounded':
+						el.style.borderRadius = '10px';
+						svgElement.style.border = '0';
+						svgElement.style.boxShadow = 'none';
+						break;
+					case 'shadow':
+						el.style.borderRadius = '50%';
+						svgElement.style.border = '2px solid black';
+						svgElement.style.boxShadow = 'rgba(0, 0, 0, 0.2) 0px 6px 12px 0px';
+						break;
+					default:
+						el.style.borderRadius = '50%';
+						svgElement.style.border = '0';
+						svgElement.style.boxShadow = 'none';
+				}
+			});
+
+			updateControls(state);
+		}
+
+		function updateControls(state) {
+			const colorControls = document.querySelectorAll('input[type="color"]');
+			colorControls.forEach(el => {
+				el.value = state.colors[el.dataset.color];
+			});
+			document.getElementById('colors').value = state.colors.join(',');
+			document.getElementById('avatar-code').textContent = `<playful-avatar name="Mary Baker" variant="${state.variant}" ${state.colors ? `colors="${state.colors.join(',')}"` : ''}></playful-avatar>
+
+<style>
+playful-avatar {
+	width: ${state.scale * 20}px;
+	height: ${state.scale * 20}px;${state.shape === 'square' ? '' : state.shape === 'rounded' ? '\n\tborder-radius: 10px;' : '\n\tborder-radius: 50%;'}
+}${state.shape !== 'shadow' ? '' : '\nplayful-avatar::part(svg) {\n\tborder: 2px solid black;\n\tbox-shadow: rgba(0, 0, 0, 0.2) 0px 6px 12px 0px;\n}'}
+</style>
+	`;
+			const $avatarCode = document.getElementById('avatar-code');
+			$avatarCode.innerHTML = $avatarCode.innerHTML
+				.replace(/\n/g, '<br>')
+				.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+		}
+
+		function initShowcase(state) {
+			let s = '';
+			names.forEach(name => {
+				s += `<div class="avatar-container">
+						<playful-avatar name="${name}" variant="${state.variant}" ${state.colors ? `colors="${state.colors.join(',')}"` : ''}></playful-avatar>
+						<span>${name}</span>
+					</div>`;
+			});
+			showcase.innerHTML = s;
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			setupHandlers();
+			initShowcase(state);
+			updateShowcase(state);
+		});
+	</script>
+</head>
+
+<body>
+	<main>
+		<header>
+			<h1>Playful Avatars</h1>
+			<p>A zero-dependency SVG-based avatar generator, distributed as a custom element (web component). Find the <a href="https://github.com/cmaas/playful-avatars">source code on GitHub</a> along with tips on how to use it.</p>
+			<div class="controls">
+				<button class="button-pill" data-variant="beam">
+					<playful-avatar name="beam" variant="beam"></playful-avatar>
+					<span>beam</span>
+				</button>
+				<button class="button-pill" data-variant="marble">
+					<playful-avatar name="marble" variant="marble"></playful-avatar>
+					<span>marble</span>
+				</button>
+				<button class="button-pill" data-variant="pixel">
+					<playful-avatar name="pixel" variant="pixel"></playful-avatar>
+					<span>pixel</span>
+				</button>
+				<button class="button-pill" data-variant="sunset">
+					<playful-avatar name="sunset" variant="sunset"></playful-avatar>
+					<span>sunset</span>
+				</button>
+				<button class="button-pill" data-variant="bauhaus">
+					<playful-avatar name="bauhaus" variant="bauhaus"></playful-avatar>
+					<span>bauhaus</span>
+				</button>
+				<button class="button-pill" data-variant="ring">
+					<playful-avatar name="ring" variant="ring"></playful-avatar>
+					<span>ring</span>
+				</button>
+			</div>
+			<div class="controls">
+				<input type="color" data-color="0">
+				<input type="color" data-color="1">
+				<input type="color" data-color="2">
+				<input type="color" data-color="3">
+				<input type="color" data-color="4">
+				<button id="random-color" class="button-pill">Random</button>
+				<input type="text" id="colors">
+			</div>
+			<div style="display: flex; gap: 0.5rem;">
+				<div class="controls">
+					<input id="scale" type="range" min="1" max="5" value="4">
+				</div>
+				<div class="controls">
+					<button class="button-pill" data-shape="circle">Circle</button>
+					<button class="button-pill" data-shape="square">Square</button>
+					<button class="button-pill" data-shape="rounded">Rounded</button>
+					<button class="button-pill" data-shape="shadow">Multi</button>
+				</div>
+			</div>
+			<p><a href="#avatar-code">Scroll down to HTML and CSS code</a></p>
+		</header>
+		<div id="showcase"></div>
+		<code id="avatar-code"></code>
+		<section>
+			<h2>Acknowledgements</h2>
+			<p>This project is a fork by <playful-avatar class="tiny" name="Chris Maas" variant="marble"></playful-avatar><a href="https://github.com/cmaas/">Chris Maas</a> of the fantastic <a href="https://github.com/boringdesigners/boring-avatars"><playful-avatar class="tiny" name="Boring avatars" variant="marble"></playful-avatar>Boring avatars</a> library, but without React.</p>
+			<p>The names used are from the <a href="https://notablewomen.withgoogle.com/all">Notable Women</a> project, the color palette samples are from the <a href="https://github.com/Jam3/nice-color-palettes">Nice Color Palettes</a> made by <a href="https://www.mattdesl.com/"><playful-avatar class="tiny" name="Matt DesLauriers" variant="marble"></playful-avatar>Matt DesLauriers</a>.</p>
+		</section>
+	</main>
+</body>
+
+</html>

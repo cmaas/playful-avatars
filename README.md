@@ -44,13 +44,13 @@ Props are reflected as attributes. `colors` as prop is an array of hex colors. `
 
 | Prop    | Type                                                         | Default                                                   |
 |---------|--------------------------------------------------------------|-----------------------------------------------------------|
-| size    | number or string                                             | *depends on variant, make sure to specify size in CSS*    |
-| square  | boolean                                                      | `false`                                                   |
 | title   | boolean                                                      | `false`                                                   |
 | name    | string                                                       | `Clara Barton`                                            |
 | variant | oneOf: `beam`, `marble`, `pixel`,`sunset`, `ring`, `bauhaus` | `beam`                                                    |
 | colors (prop)  | array                                                 | `['#92A1C6', '#146A7C', '#F0AB3D', '#C271B4', '#C20D90']` |
 | colors (attribute)  | string                                           | `#92A1C6,#146A7C,#F0AB3D,#C271B4,#C20D90`                 |
+
+*Note: The original library had the props `size` and `square`. These were removed in Playful Avatars. Set the size via CSS. Square is default now. Make round via CSS. See section below for examples.*
 
 #### Name
 The `name` prop is mandatory and is used to generate the avatar. It can be the username, email or any random string.
